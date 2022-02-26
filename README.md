@@ -11,7 +11,7 @@
 7.  Output  hypothesis  h
 ```
 
-## To illustrate this algorithm, assume the learner is given the sequence of training examples from the EnjoySport task
+### To illustrate this algorithm, assume the learner is given the sequence of training examples from the EnjoySport task
 
 
 | Example | Sky    | AirTemp | Humidity  | Wind    | Water | Forecast  | EnjoySport  |
@@ -66,3 +66,61 @@ The fourth example leads to a further generalization of h
 **h4 = [Sunny Warm ? Strong ? ? ]**
 
 ------------------------------------------------------------------------
+### Code
+
+```python
+
+import csv
+
+a = []
+
+with open('1.csv', 'r') as csvfile:
+    for row in csv.reader(csvfile):
+        a.append(row)
+    print(a)
+
+print("\n The total number of training instances are : ",len(a))
+
+num_attribute = len(a[0])-1
+
+hypothesis = ['0']*num_attribute
+print("\n The initial hypothesis is : \n", hypothesis)
+
+for i in range(0, len(a)):
+    if a[i][num_attribute] == 'yes':
+        for j in range(0, num_attribute):
+            if hypothesis[j] == '0' or hypothesis[j] == a[i][j]:
+                hypothesis[j] = a[i][j]
+            else:
+                hypothesis[j] = '?'
+    print("\n The hypothesis for the training instance {} is: \n" .format(i+1),hypothesis)
+
+print("\n The Maximally specific hypothesis for the training instances is: \n",hypothesis )
+```
+
+------------------------------------------------------------------------
+### Output
+```
+[['sunny', 'warm', 'normal', 'strong', 'warm', 'same', 'yes'], ['sunny', 'warm', 'high', 'strong', 'warm', 'same', 'yes'], 
+['rainy', 'cold', 'high', 'strong', 'warm', 'change', 'no'], ['sunny', 'warm', 'high', 'strong', 'cool', 'change', 'yes']]
+
+ The total number of training instances are :  4
+
+ The initial hypothesis is : 
+ ['0', '0', '0', '0', '0', '0']
+
+ The hypothesis for the training instance 1 is: 
+ ['sunny', 'warm', 'normal', 'strong', 'warm', 'same']
+
+ The hypothesis for the training instance 2 is: 
+ ['sunny', 'warm', '?', 'strong', 'warm', 'same']
+
+ The hypothesis for the training instance 3 is: 
+ ['sunny', 'warm', '?', 'strong', 'warm', 'same']
+
+ The hypothesis for the training instance 4 is: 
+ ['sunny', 'warm', '?', 'strong', '?', '?']
+
+ The Maximally specific hypothesis for the training instances is: 
+ ['sunny', 'warm', '?', 'strong', '?', '?']
+```
